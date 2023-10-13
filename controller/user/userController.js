@@ -1,6 +1,9 @@
-const { users } = require("../../model")
+const { users, sequelize } = require("../../model")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
+const db = require("../../model/index")
+const { QueryTypes } = require("sequelize")
+
 
 
 
@@ -54,6 +57,11 @@ exports.loginUser = async (req,res)=>{
             expiresIn : '30d'
         })
         res.cookie('token',token) // browser ma application tab vitra cookie vanney ma save hunchha
+
+   await sequelize.query(`CREATE TABLE IF NOT EXISTS userHistory_${associatedDataWithEmail[0].id}(
+        id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, 
+        organizationNumber INT NULL
+    )`)
 
       res.send("Logged in")
        }else{
