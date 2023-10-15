@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Home Page</h1>
+
+    <form id="form">
+        <input type="text" id="name">
+        <input type="password" name="" id="password">
+        <input type="email" name="" id="email">
+        <button>Register</button>
+    </form>
+    <h3 id="response"></h3>
+
+    <script src="https://cdn.socket.io/4.6.0/socket.io.min.js" integrity="sha384-c79GN5VsunZvi+Q/WObgk2in0CbZsHnjEqvFxC5DxHn9lTfNce2WW6h2pH6u/kF+" crossorigin="anonymous"></script>
+
+    <script>
+        const socket  =  io()
+        const form = document.getElementById("form")
+        const name = document.getElementById("name")
+        const password = document.getElementById("password")
+        const email = document.getElementById("email")
+        const response = document.getElementById("response")
+
+        form.addEventListener("submit",(e)=>{
+            e.preventDefault()
+            socket.emit("register",{username:name.value,password:password.value,email:email.value})
+            socket.on("response",(data)=>{
+                console.log(data)
+                response.textContent = data.message
+            })
+        })
+
+
+        // socket.emit("hello",{
+        //     name : "Manish Basnet",
+        //     age : 21
+        // })
+        // socket.on("response",(data)=>{
+        //     console.log(data)
+        // })
+    </script>
+</body>
+</html>
