@@ -33,6 +33,8 @@ const server = app.listen(3000,()=>{
 const io = new Server(server)
 
 io.on("connection",(socket)=>{
+
+        console.log("User connected")
     socket.on("register",async (data)=>{
         const {username,password,email} = data
         await users.create({
@@ -41,8 +43,11 @@ io.on("connection",(socket)=>{
             email
         })
         socket.emit("response",{status : 200,message : 'Registered '})
+        
     })
-
+    socket.on("disconnect",()=>{
+        console.log("User disconnected")
+    })
 
     // socket.on("hello",(data)=>{
     //     console.log(data)
